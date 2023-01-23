@@ -1,0 +1,44 @@
+
+% Paramétrage du papier utilisé
+\documentclass[a4paper,10pt,landscape]{article}
+
+% Ne pas toucher, nécessaire à la mise en forme
+\usepackage[utf8x]{inputenc} 
+\usepackage[T1]{fontenc} % Nouvelle norme pour codage des caractères
+\usepackage{lmodern} % Nouvelle forme de la fonte ComputerModern
+\usepackage[frenchb]{babel} % Règles typographiques françaises, césures
+\usepackage{graphicx} % Insertion images
+\usepackage{epstopdf} % Convertir les images eps vers pdf
+\epstopdfsetup{outdir=./Images/converted_to_pdf/} % Dossier de sortie des images converties
+\pagenumbering{arabic}
+\usepackage[top=1cm, bottom=1cm, left=1cm, right=1cm, showframe=false]{geometry}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage{pdfpages}
+\usepackage{color}
+\usepackage{multicol}
+\usepackage{tabto}
+\usepackage{enumitem}
+
+\usepackage{parskip}
+\setlength\parindent{0pt} % sets indent to zero
+\setlength{\parskip}{0pt} % changes vertical space be
+\usepackage{lipsum}
+
+% fichier avec les constantes (à adapter pour les étudiants)
+\input{chapitres/constantes.tex}
+
+
+% debut du corps du rapport 
+\begin{document}	
+	% première page
+
+	% enlève le numero sur la premiere page
+	\pagestyle{empty}
+	\newpage
+	
+	\input{chapitres/contenu.tex}
+
+\end{document}
+
+
