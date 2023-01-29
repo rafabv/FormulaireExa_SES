@@ -15,7 +15,7 @@ Ce qui est manquant dans le dossier output sera recompilé lorsque la commande m
 Générateur de Linux embarqué avec le système de cross-compilation\\
 \begin{minipage}{\linewidth}
 	\centering
-    \includegraphics[width =0.5\columnwidth]{images/3.png}
+    \includegraphics[width =0.8\columnwidth]{images/3.png}
 \end{minipage}\\
 1) The /buildroot/.config file contains the NanoPi Neo Plus 2 buildroot configuration\\
 2) During the make, the configured packages sources files are downloaded to the
@@ -67,7 +67,7 @@ fichier : /buildroot/board/friendlyarm/scripts/genimages.cfg file\\
 squashfs, …)\\
 \begin{minipage}{\linewidth}
 	\centering
-    \includegraphics[width =0.6\columnwidth]{images/6.png}
+    \includegraphics[width =0.8\columnwidth]{images/6.png}
 \end{minipage}
 %%%%%%%%%%%%%%%%%%%%%%
 \\ \textbf{8. D’expliquer le rootfs\_overlay\\}
@@ -87,6 +87,7 @@ downloaded tarballs and license files
 \item Sxx\_foo file, it is the start script for the foo package
 \end{itemize}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
 {\Large \textbf{U-boot}}
 \\ \textbf{10.D'expliquer le démarrage du NanoPi\\}
 Le démarrage du NanoPi NEO Plus2 se décompose en 6 phases:\\
@@ -103,8 +104,8 @@ la RAM, le fichier «Image», ainsi que le fichier de configuration FDT (flatten
 - Le noyau Linux attachera les systèmes de fichiers (rootfs, tmpfs, usrfs, …) et poursuivra son exécution.
 \begin{minipage}{\linewidth}
 	\centering
-    \includegraphics[width =0.6\columnwidth]{images/4.png}
-    \includegraphics[width =0.4\columnwidth]{images/38.png}
+    \includegraphics[width =0.8\columnwidth]{images/4.png}
+    \includegraphics[width =0.6\columnwidth]{images/38.png}
 \end{minipage}\\
 %%%%%%%%%%%%%%%%%%%%%%
 \\ \textbf{11. De connaître, expliquer les principales commandes de u-boot utilisées durant le démarrage\\}
@@ -154,7 +155,6 @@ Un fichier elf c'est un fichier executable linux dans lequel il y a des informat
 %%%%%%%%%%%%%%%%%%%%%%
 \\ \textbf{16. De connaître les différentes étapes pour la création de uImage\\}
 Image linux au format uboot.\\
-
 Préparation des fichiers nécessaires: Il est nécessaire de disposer des fichiers suivants: Le noyau Linux compilé (vmlinux ou zImage), le système de fichiers racine (rootfs), le script de démarrage (bootscript)\\
 Utilisation de l'outil mkimage: Cet outil est fourni avec le noyau Linux et permet de créer l'image uImage à partir des fichiers précédemment préparés. \\
 La commande générale pour créer une image uImage est :\\
@@ -180,11 +180,13 @@ kernel Linux. Il est créé avec la commande:\\
 mkimage -C none -A arm64 -T script -d board/friendlyarm/nanopi-neoplus2/boot.cmd output/images/boot.scr\\
 \begin{minipage}{\linewidth}
 	\centering
-    \includegraphics[width =0.6\columnwidth]{images/12.png}
+    \includegraphics[width =0.8\columnwidth]{images/12.png}
 \end{minipage}
+\columnbreak
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-{\Large \textbf{Compilation du noyau}}
-\\ \textbf{20. De connaître les principaux répertoires du noyau Linux\\}
+{\Large \textbf{Compilation du noyau}}\\ 
+\textbf{20. De connaître les principaux répertoires du noyau Linux\\}
 This directory has these main sub-directories:\\
 \textit{arch} Hardware dependent code\\
 \textit{block} Generic functions for the block devices\\
@@ -236,14 +238,16 @@ Now, the stack memory is no longer executable\\
 - ROP, or Return-Oriented Programming allows also to bypass non executable stack memory. The main idea is to execute code in the program itself\\
 \begin{minipage}{\linewidth}
 	\centering
-    \includegraphics[width =0.6\columnwidth]{images/7.png}
+    \includegraphics[width =0.8\columnwidth]{images/7.png}
 \end{minipage}
 %%%%%%%%%%%%%%%%%%%%%%
 \\ \textbf{23. D’expliquer le principe des protections contre les softwares attacks : ASLR, PIE, canary\\}
 ASLR (Address Space Layout Randomization) randomize\_va\_space randomizes
 the stack and heap addresses\\
 The PIE (Position Independent Executable) : Functions and variables addresses of an executable are not static and are computed during the program execution. This option avoids the ROP problem.\\
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
 {\Large \textbf{Valgrind}}
 \\ \textbf{24. De connaître les différents outils de Valgrind et leur utilisation\\}
 1. Memcheck is a memory error detector. It helps you make your programs, particularly those written in C and C++, more correct.\\
@@ -253,26 +257,35 @@ The PIE (Position Independent Executable) : Functions and variables addresses of
 5. Massif is a heap and stack profiler. It helps you make your programs use less memory. Permet de vérifier d'utilisation de la heap -> optimiser la heap, éviter l'overflow\\
 \begin{minipage}{\linewidth}
 	\centering
-    \includegraphics[width =0.4\columnwidth]{images/10.png}
+    \includegraphics[width =0.6\columnwidth]{images/10.png}
 \end{minipage}
 %%%%%%%%%%%%%%%%%%%%%%
 \\ \textbf{25. Pour un code donné avec des erreurs, savoir quel-s outil-s de Valgrind utiliser\\}
 voir point 24\\
+\columnbreak
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 {\Large \textbf{Hardening Linux}}
 \\ \textbf{26. De contrôler l’intégrité d’un package, d’un programme\\}
-?????????????
+En premier télécharger le programme foo et sa signature ensuite il faut vérifier l'intégrité avec:\\
+gpg --verify foo.tar.gz.asc\\
+Il nous répond qu'il peut pas en donnant une RSA key: par ex. 23948UT5. Donc il faut importer cette clé publique:\\
+gpg --keyserver keyserver.ubuntu.com --search-keys 23948UT5\\
+Et relancer la vérification et c'est bon.
 %%%%%%%%%%%%%%%%%%%%%%
 \\ \textbf{27. De configurer un nouveau package, programme\\}
 \begin{minipage}{\linewidth}
 	\centering
     \includegraphics[width =0.8\columnwidth]{images/17.png}
 \end{minipage}
+S'il n'existe pas encore dans buildroot (donc une version inférieure n'a jamais été installé) on le place dans /buildroot/packages.
+Et on va faire les choix de versions dans le foo.mk et ensuite on le configure avec make menuconfig le choix de config sont décris dans Config.in
 %%%%%%%%%%%%%%%%%%%%%%
 \\ \textbf{28. De cross-compiler un programme\\}
-?????????????
+Utiliser le compilateur généré par buildroot (/buildroot/output/host/bin/)\\
+Le compilateur et tous les outils de cross compil sont regroupés dans le programme toolchain-wrapper (un peu comme busybox pour uboot; /buildroot/output/host/bin/toolchain-wrapper) généré par buildroot une fois qu'on a configuré l'architecture sur laquelle notre image devra tourner.\\
 %%%%%%%%%%%%%%%%%%%%%%
-\\ \textbf{29. De contrôler les services, les ports ouverts\\}
+\textbf{29. De contrôler les services, les ports ouverts\\}
 \textit{netstat} command shows the open tcp and udp ports\\
 $netstat -atun$\\
 \textit{lsof} command shows open files\\
@@ -320,7 +333,7 @@ sysctl –w net/ipv4/tcp\_syncookies=1\\
 - \textit{sysctl –p} command reads the file /etc/sysctl.conf and configure kernel parameters\\
 \begin{minipage}{\linewidth}
 	\centering
-    \includegraphics[width =0.5\columnwidth]{images/18.png}
+    \includegraphics[width =0.6\columnwidth]{images/18.png}
 \end{minipage}
 %%%%%%%%%%%%%%%%%%%%%%
 \\ \textbf{33. De contrôler-sécuriser les comptes utilisateurs\\}
@@ -397,7 +410,7 @@ insecure because they don’t check the size of the destination buffers
 \end{itemize}~
 %%%%%%%%%%%%%%%%%%%%%%
 \textbf{37. De contrôler le démarrage de Linux\\}
-?????????????
+Utiliser le TPM?!
 %%%%%%%%%%%%%%%%%%%%%%
 \\ \textbf{38. D’appliquer la méthodologie OSSTMM simplifiée\\}
 Open Source Security Testing Methodology Manual (OSSTMM) provides a
@@ -427,6 +440,7 @@ nmap –Pn –n –p 22 –sV IP // indicate the service version
 (Openssh 8.1p)
 \end{itemize}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
 {\Large \textbf{Filesystem}}
 \\ \textbf{39. De connaître les différents types de systèmes de fichiers ainsi que leurs applications\\}
 Pour les systèmes embarqués, il existe deux catégories de systèmes de fichiers, les volatiles en RAM et les persitents sur des Flash (NOR et de plus en plus NAND)\\
@@ -509,9 +523,8 @@ Scalability : EXT4 clearly doesn’t scale as well as BTRFS and F2FS\\
 2) Block 1-3 are updated, old blocks 1-3 are not used\\
 3) Garbage copies block2 and 4, and frees old block1-2-3-4
 \item BTRFS (B-Tree filesystem) : BTRFS is a “new” file system compared to EXT. It is a B-Tree filesystem.
-??????????????
 \end{itemize} ~
-\\ \textbf{43. De connaître les caractéristiques du filesystem Squashfs, ainsi que les commandes associées\\}
+\textbf{43. De connaître les caractéristiques du filesystem Squashfs, ainsi que les commandes associées\\}
 Create the squashed file system dir.sqsh for the regular directory /data/config/:\\
 bash\# mksquashfs /data/config/ /data/dir.sqsh\\
 \begin{minipage}{\linewidth}
@@ -698,7 +711,7 @@ username
 \item Brute force attacks : Attempt to try all possible combinations, which means it will take the longest amount of time out of the three types.
 \item Mask attacks : Similar to Brute Force, this requires additional user inputs. If you know the length of the password, a few of the characters used, or even a prefix or suffix, it takes less time to recover.
 \end{itemize}~
-\\ \textbf{58. De savoir utiliser hashcat pour casser un mot de passe\\}~
+\textbf{58. De savoir utiliser hashcat pour casser un mot de passe\\}~
 Hashcat attack modes :
 \begin{itemize}
 \item Straight mode : dictionary attack with one password database\\
@@ -719,6 +732,10 @@ hashcat -a 6 -m 0 hashfile ?u?u dictionaryFile ?d?d?d\\
 One side is simply a dictionary, the other is the result of a Brute-Force/mask attack
 \end{itemize} 
 Hash mode : hash structure (0 : MD5, 1800: sha512 unix)\\
+\vfill
+
+\columnbreak
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 {\Large \textbf{Firewall iptables}}\\
 \textbf{59. De connaître les principes de Netfilter, iptables\\}
@@ -776,9 +793,18 @@ NanoPi allows only incoming SSH connections and all outgoing connections\\
 \end{minipage}
 \\ \textbf{63. Connaître le principe des NFQUEUE\\}
 The NFQUEUE target means to pass the packet to userspace.\\
+\columnbreak
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 {\Large \textbf{TPM (trusted platform module)}}
+TPM generates strong, secure cryptographic keys\\
+\begin{minipage}{\linewidth}
+	\centering
+    \includegraphics[width =0.6\columnwidth]{images/53.png}
+\end{minipage}\\
 \\ \textbf{64. Savoir expliquer uniquement le principe des chiffrements symétrique, asymétrique,fonctions de hachage, la signature digitale\\}
+
+Cryptography -> needs a key to decryptograph
 - Chiffrement symétrique : Une seul clé pour crypter et décrypter. \\
 Block mode : Cleartext is divided in block. Each block has the same length (64, 128 bits). Each block is encrypted by an algorithm (AES, IDEA, 3DES, …)\\
 \begin{minipage}{\linewidth}
@@ -821,7 +847,7 @@ time and never changes during the lifetime of the device. The primary endorsemen
 \\ \textbf{68. Savoir créer, utiliser des clés avec un TPM\\}
 \begin{minipage}{\linewidth}
 	\centering
-    \includegraphics[width =0.6\columnwidth]{images/48.png}
+    \includegraphics[width =0.8\columnwidth]{images/48.png}
 \end{minipage}\\
 After tpm2\_createprimary command, public-private keys are stored in RAM in the transient area\\
 - tpm2\_getcap handles-transient command shows the index of the public-private keys\\
@@ -838,7 +864,7 @@ tpm2\_create -C o\_primary -G rsa2048 -u child\_public –r child\_private\\
 - Child asymmetric keys:\\
 \begin{minipage}{\linewidth}
 	\centering
-    \includegraphics[width =0.4\columnwidth]{images/49.png}
+    \includegraphics[width =0.6\columnwidth]{images/49.png}
 \end{minipage}\\
 First load the key:\\
 tpm2\_load -C primary.ctx -u child\_pub -r child\_pr -c child\\
@@ -847,9 +873,29 @@ tpm2\_rsaencrypt -c child -s rsaes clearfile –o encryptedfile\\
 Or decrypt with Child keys :\\
 tpm2\_rsadecrypt -c child -s rsaes encryptedfile -o clearfile\\
 Or Verify signature with Child keys :\\
-tpm2\_verifysignature -c child -g sha256 -s file.sign -m file
-\\ \textbf{70. Savoir encrypter-décrypter, signer-vérifier avec un TPM\\}
+tpm2\_verifysignature -c child -g sha256 -s file.sign -m file\\
+Create Child symmetric key :\\
+\begin{minipage}{\linewidth}
+	\centering
+    \includegraphics[width =0.6\columnwidth]{images/57.png}
+\end{minipage}\\
+\textbf{70. Savoir encrypter-décrypter, signer-vérifier avec un TPM\\}
 voir point 69\\ 
+Decrypt (asymmetric key) :\\
+\begin{minipage}{\linewidth}
+	\centering
+    \includegraphics[width =0.6\columnwidth]{images/54.png}
+\end{minipage}\\
+Sign (asymmetric key) :\\
+\begin{minipage}{\linewidth}
+	\centering
+    \includegraphics[width =0.6\columnwidth]{images/55.png}
+\end{minipage}\\
+Verify (asymmetric key) :\\
+\begin{minipage}{\linewidth}
+	\centering
+    \includegraphics[width =0.6\columnwidth]{images/54.png}
+\end{minipage}\\
 \textbf{71. Savoir utiliser les registres PCR\\}
 Platform Configuration Registers. The prime use case is to provide a method to cryptographically record (measure) software state or configuration data used by a device. \\ 
 \textbf{72. Savoir sauver des données sur le TPM\\}
@@ -860,7 +906,7 @@ Platform Configuration Registers. The prime use case is to provide a method to c
 \\ \textbf{73. Savoir sauver des données et les protéger avec une PCR policy\\}
 \begin{minipage}{\linewidth}
 	\centering
-    \includegraphics[width =0.5\columnwidth]{images/51.png}
+    \includegraphics[width =0.6\columnwidth]{images/51.png}
 \end{minipage}
 
 \end{multicols}
